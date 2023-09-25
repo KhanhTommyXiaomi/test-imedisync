@@ -43,7 +43,7 @@ const PhotoListItem = ({ photo, onClick, onDownload }: PhotoListItemProps) => {
               />
               <div className={styles.boxName}>
                 <div className={styles.username}>
-                  {`${photo.user.first_name} ${photo.user.last_name}`}
+                  {`${photo.user.first_name} ${photo.user.last_name || ''}`}
                 </div>
                 <div className={styles.status}>Available for hire</div>
               </div>

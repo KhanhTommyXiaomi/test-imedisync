@@ -69,7 +69,7 @@
 
 .userInfo {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -93,8 +93,33 @@
 }
 .username {
   font-size: 14px;
+  font-weight: 500;
 }
 .status {
   font-size: 12px;
   margin-top: 4px;
+}
+
+.modalPhotoItem {
+  display: flex;
+  justify-content: center;
+}
+
+.modalPhotoItem img {
+  width: auto;
+  max-height: 768px;
+  max-width: 90%;
+}
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modalHeader .username {
+  color: #333333 !important;
+}
+.modalHeader .status {
+  color: rgb(66, 131, 251) !important;
+  font-size: 11px;
 }
