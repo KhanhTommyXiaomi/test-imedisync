@@ -1,6 +1,7 @@
 import styles from '@/styles/modal.module.css'
 import { Dispatch, ReactElement, SetStateAction, useEffect } from 'react'
 import ConditionalRender from './ConditionalRender'
+import CloseIcon from './icons/CloseIcon'
 
 interface ModalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -26,6 +27,10 @@ const Modal = ({
   return (
     <>
       <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
+      <div className={styles.closeIcon}>
+        <CloseIcon />
+      </div>
+      <CloseIcon />
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
