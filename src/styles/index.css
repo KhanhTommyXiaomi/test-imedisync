@@ -18,6 +18,10 @@ img {
   width: 100%;
 }
 
+.app {
+  padding-top: 16px;
+}
+
 .loading {
   font-size: 20px;
   font-weight: 700;
@@ -110,4 +114,27 @@ img {
   font-size: 14px;
   color: #767676;
   font-weight: 500;
+}
+
+.input-container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #dcdcdc;
+  max-width: 850px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+}
+
+input {
+  outline: none;
+  border: none;
+  height: 24px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.close-icon {
+  cursor: pointer;
 }

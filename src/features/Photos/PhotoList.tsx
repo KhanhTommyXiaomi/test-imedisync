@@ -121,7 +121,7 @@ const PhotoList = () => {
         <ModalPhotoItem
           setIsOpen={setIsOpenModalPhoto}
           photo={photoSelected}
-          onSubmit={handleDownloadImage}
+          onDownload={handleDownloadImage}
         />
       )}
     </div>

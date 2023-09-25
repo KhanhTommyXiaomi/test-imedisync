@@ -10,10 +10,16 @@ import { Dispatch, SetStateAction } from 'react'
 interface ModalPhotoItemProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>
   photo: PhotoItem
-  onSubmit?: (photo: PhotoItem) => void
+  onDownload?: (photo: PhotoItem) => void
 }
 
-const Header = ({ photo }: { photo: PhotoItem }) => {
+const Header = ({
+  photo,
+  onDownload,
+}: {
+  photo: PhotoItem
+  onDownload: () => void
+}) => {
   return (
     <div className={styles.modalHeader}>
       <div className={styles.userInfo}>
@@ -28,15 +34,25 @@ const Header = ({ photo }: { photo: PhotoItem }) => {
       <div className={styles.headerActions}>
         <ButtonWithIcon Icon={<HeartIcon />} />
         <ButtonWithIcon Icon={<PlusIcon />} />
-        <ButtonWithIcon>Download</ButtonWithIcon>
+        <ButtonWithIcon onClick={onDownload}>Download</ButtonWithIcon>
       </div>
     </div>
   )
 }
 
-const ModalPhotoItem = ({ setIsOpen, photo }: ModalPhotoItemProps) => {
+const ModalPhotoItem = ({
+  setIsOpen,
+  photo,
+  onDownload,
+}: ModalPhotoItemProps) => {
+  const handleDownload = () => {
+    !!onDownload && onDownload(photo)
+  }
   return (
-    <Modal setIsOpen={setIsOpen} Header={<Header photo={photo} />}>
+    <Modal
+      setIsOpen={setIsOpen}
+      Header={<Header photo={photo} onDownload={handleDownload} />}
+    >
       <div className={styles.modalPhotoItem}>
         <Image src={photo.urls?.raw || ''} />
       </div>

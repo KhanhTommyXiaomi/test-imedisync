@@ -1,10 +1,20 @@
-const CloseIcon = () => {
+interface CloseIconProps {
+  fill?: string
+  width?: number
+  height?: number
+}
+
+const CloseIcon = ({
+  fill = '#FFFFFF',
+  width = 24,
+  height = 24,
+}: CloseIconProps) => {
   return (
     <svg
-      fill="#FFFFFF"
-      width="24"
-      height="24"
-      className="FsJPV"
+      fill={fill}
+      width={width}
+      height={height}
+      className="close-icon"
       viewBox="0 0 24 24"
       version="1.1"
       aria-hidden="false"
