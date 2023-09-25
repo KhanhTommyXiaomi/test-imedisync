@@ -89,3 +89,25 @@ img {
 .download-icon:hover {
   background-color: #ffffff;
 }
+
+.button-with-icon {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #dcdcdc;
+  line-height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.button-with-icon:hover {
+  border: 1px solid #333333;
+}
+.button-with-icon:hover .button-text {
+  color: #333333;
+}
+.button-text {
+  font-size: 14px;
+  color: #767676;
+  font-weight: 500;
+}

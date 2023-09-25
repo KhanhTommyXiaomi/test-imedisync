@@ -27,4 +27,5 @@
   border-radius: 4px;
   padding: 12px 16px;
   width: 80vw;
+  min-height: 500px;
 }

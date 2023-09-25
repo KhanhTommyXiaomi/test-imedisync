@@ -1,5 +1,8 @@
+import ButtonWithIcon from '@/components/ButtonWithIcon'
 import Image from '@/components/Image'
 import Modal from '@/components/Modal'
+import HeartIcon from '@/components/icons/HeartIcon'
+import PlusIcon from '@/components/icons/PlusIcon'
 import { PhotoItem } from '@/models/photo'
 import styles from '@/styles/photo.module.css'
 import { Dispatch, SetStateAction } from 'react'
@@ -21,6 +24,11 @@ const Header = ({ photo }: { photo: PhotoItem }) => {
           </div>
           <div className={styles.status}>Available for hire</div>
         </div>
+      </div>
+      <div className={styles.headerActions}>
+        <ButtonWithIcon Icon={<HeartIcon />} />
+        <ButtonWithIcon Icon={<PlusIcon />} />
+        <ButtonWithIcon>Download</ButtonWithIcon>
       </div>
     </div>
   )

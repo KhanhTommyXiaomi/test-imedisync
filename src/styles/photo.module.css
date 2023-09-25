@@ -123,3 +123,7 @@
   color: rgb(66, 131, 251) !important;
   font-size: 11px;
 }
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
