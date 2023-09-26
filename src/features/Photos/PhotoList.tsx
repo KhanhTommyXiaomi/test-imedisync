@@ -37,11 +37,8 @@ const PhotoList = ({
   const [photoSelected, setPhotoSelected] = useState<PhotoItem>({})
   const [isOpenModalPhoto, setIsOpenModalPhoto] = useState(false)
   const [hasMore, setHasMore] = useState(true)
-  const [query, setQuery] = useState('')
   const [photoData, setPhotoData] = useState(() => initPhotoData(columnCount))
-  const [photoSearchData, setPhotoSearchData] = useState(() =>
-    initPhotoData(columnCount)
-  )
+  const [useSearching, setUseSearching] = useState(false)
 
   const itemsInColumn = photoListQuery.limit / columnCount
 
@@ -60,15 +57,15 @@ const PhotoList = ({
 
   const fillPhotoListState = (
     photoListResponse: PhotoItemResponse[],
-    useSearching: boolean
+    hasNotClean: boolean
   ) => {
     const newPhotoList = photoListResponse.map(refactorPhotoList)
     const newPhotoData: any = {
-      ...(!useSearching ? photoData : {}),
+      ...(hasNotClean ? photoData : {}),
     }
     for (let i = 0; i < columnCount; i++) {
       newPhotoData[i + 1] = [
-        ...(!useSearching ? newPhotoData[i + 1] : []),
+        ...(hasNotClean ? newPhotoData[i + 1] : []),
         ...newPhotoList.slice(
           i * itemsInColumn,
           i * itemsInColumn + photoListQuery.limit / columnCount
@@ -78,39 +75,16 @@ const PhotoList = ({
     setPhotoData(newPhotoData)
   }
 
-  const fillPhotoListSearch = (
-    photoListResponse: PhotoItemResponse[],
-    isScrolling?: boolean
-  ) => {
-    const newPhotoList = photoListResponse.map(refactorPhotoList)
-    const newPhotoData: any = {
-      ...(isScrolling ? photoSearchData : {}),
-    }
-    for (let i = 0; i < columnCount; i++) {
-      newPhotoData[i + 1] = [
-        ...(isScrolling ? newPhotoData[i + 1] : []),
-        ...newPhotoList.slice(
-          i * itemsInColumn,
-          i * itemsInColumn + photoListQuery.limit / columnCount
-        ),
-      ]
-    }
-    setPhotoSearchData(newPhotoData)
-  }
-
   const getPhotoList = async (params: {
     queries: PhotosQueryParameters
     useSearching: boolean
-    isCleaning?: boolean
+    useCleaning: boolean
   }) => {
     setLoading(true)
     try {
       const res = await photoApi.getPhotos(params)
       const data = params.useSearching ? res.results : res
-      fillPhotoListState(
-        data as PhotoItemResponse[],
-        !!params.isCleaning || params.useSearching
-      )
+      fillPhotoListState(data as PhotoItemResponse[], !params.useCleaning)
       setHasMore(!!data.length)
     } finally {
       setLoading(false)
@@ -127,13 +101,18 @@ const PhotoList = ({
   }
 
   const handleSearch = (value: string) => {
+    setUseSearching(true)
     const newQueries = {
       ...photoListQuery,
       page: 1,
       query: value,
     }
     setPhotoListQuery(newQueries)
-    getPhotoList({ queries: newQueries, useSearching: true })
+    getPhotoList({
+      queries: newQueries,
+      useSearching: !!value,
+      useCleaning: true,
+    })
   }
 
   const clearValueSearch = () => {
@@ -144,11 +123,19 @@ const PhotoList = ({
     }
     setPhotoListQuery(newQueries)
     setPhotoData(initPhotoData(columnCount))
-    getPhotoList({ queries: newQueries, useSearching: false, isCleaning: true })
+    getPhotoList({
+      queries: newQueries,
+      useSearching: false,
+      useCleaning: true,
+    })
   }
 
   useEffect(() => {
-    getPhotoList({ queries: photoListQuery, useSearching: false })
+    getPhotoList({
+      queries: photoListQuery,
+      useSearching: false,
+      useCleaning: true,
+    })
   }, [])
 
   useEffect(() => {
@@ -167,7 +154,8 @@ const PhotoList = ({
         setPhotoListQuery(newQueries)
         getPhotoList({
           queries: newQueries,
-          useSearching: false,
+          useSearching,
+          useCleaning: false,
         })
       }
     }
@@ -181,7 +169,7 @@ const PhotoList = ({
     <div className={styles.photoListFeature}>
       <InputText
         placeholder="Search images"
-        value={query}
+        value={photoListQuery.query}
         onSubmit={handleSearch}
         startAdornment={<SearchIcon />}
         endAdornment={<CloseIcon fill="#767676" width={20} height={20} />}
