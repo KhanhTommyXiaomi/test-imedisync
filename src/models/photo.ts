@@ -3,7 +3,9 @@ export interface PaginationQueryParameters {
   limit: number
 }
 
-export interface PhotosQueryParameters extends PaginationQueryParameters {}
+export interface PhotosQueryParameters extends PaginationQueryParameters {
+  query?: string
+}
 
 export interface PhotoItem {
   id?: string

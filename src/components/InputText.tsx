@@ -7,6 +7,7 @@ interface InputTextProps {
   placeholder?: string
   onChange?: (value: string) => void
   onSubmit?: (value: string) => void
+  onEndAdornmentClick?: () => void
 }
 
 const InputText = ({
@@ -16,6 +17,7 @@ const InputText = ({
   endAdornment,
   placeholder,
   onSubmit,
+  onEndAdornmentClick,
 }: InputTextProps) => {
   const [internalValue, setInternalValue] = useState('')
   const [focus, setFocus] = useState(false)
@@ -26,6 +28,12 @@ const InputText = ({
     !!onChange && onChange(value)
   }
 
+  const handleClear = () => {
+    setInternalValue('')
+    !!onChange && onChange('')
+    !!onEndAdornmentClick && onEndAdornmentClick()
+  }
+
   useEffect(() => {
     if (value !== internalValue) {
       setInternalValue(value || '')
@@ -34,7 +42,7 @@ const InputText = ({
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
-      if (e.key === 'Enter' && focus) {
+      if (e.key === 'Enter' && focus && value !== internalValue) {
         !!onSubmit && onSubmit(internalValue)
       }
     }
@@ -42,7 +50,7 @@ const InputText = ({
     return () => {
       window.removeEventListener('keypress', handleKeyPress)
     }
-  }, [focus, internalValue])
+  }, [focus, internalValue, value])
 
   return (
     <div className="input-container">
@@ -54,7 +62,7 @@ const InputText = ({
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
       />
-      {!!endAdornment && <div>{endAdornment}</div>}
+      {!!endAdornment && <div onClick={handleClear}>{endAdornment}</div>}
     </div>
   )
 }
